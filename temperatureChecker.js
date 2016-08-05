@@ -1,6 +1,8 @@
 (function(){
 	var request = require('request');
 	var cheerio = require('cheerio');
+	var colors = require('colors');
+	
 	var electronics = null; // set in Run
 	var ROW_INDEX = 0;
 		
@@ -17,13 +19,13 @@
 				results.temperature = Number($('#curTemp .wx-data .wx-value').text());
 				results.name = $('.city-nav-header').text().trim();
 				
-				console.log(results.name + ': ' + results.temperature);
+				console.log(colors.yellow(results.name + ': ') + results.temperature + '°C');
 				
 				if(callback != undefined)
 					callback(results);
 			} 
 			else {
-				console.log('Error getting temperature.');
+				console.log('Error getting temperature.'.red);
 			}
 		});
 	}

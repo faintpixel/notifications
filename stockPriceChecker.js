@@ -1,13 +1,16 @@
 (function(){
 	var request = require('request');
 	var cheerio = require('cheerio');
+	var colors = require('colors');
+	var util = require('util');
+	
 	var electronics = null; // set in Run
 	var ROW_INDEX = 2;
 		
 	var baseUrl = 'http://www.marketwatch.com/investing/stock/';
 	
 	function CheckStock(symbol, callback) {
-		console.log('Checking stock symbol ' + symbol);
+		console.log('Checking stock symbol '.grey + symbol.yellow);
 		
 		var url = baseUrl + symbol;
 		request(url, function (error, response, body) {
@@ -19,12 +22,13 @@
 				results.value = Number($('.pricewrap .bgLast').text());
 				results.change = $('.lastpricedetails .bgChange').text();
 				
-				console.log(results.name + ': ' + results.value + ' (' + results.change + ')');
-				
-				callback(results);
+				console.log(util.format('%s: %s (%s)', colors.yellow(results.name).bold, colors.yellow(results.value).bold, results.change));
+								
+				if(callback != undefined)
+					callback(results);
 			} 
 			else {
-				console.log('Error getting stock info for ' + symbol + '.');
+				console.log(colors.red('Error getting stock info for ' + symbol + '.'));
 			}
 		});
 	}

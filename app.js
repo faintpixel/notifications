@@ -3,17 +3,18 @@
 	stockPriceChecker = require('./stockPriceChecker');
 	temperatureChecker = require('./temperatureChecker');
 	
-	electronics.Initialize(InitializationComplete);
+	//electronics.Initialize(InitializationComplete);
+	
+	RunHeadless();
 	
 	function InitializationComplete() {
-		temperatureChecker.Run(electronics);
-		
+		temperatureChecker.Run(electronics);		
 		stockPriceChecker.Run(electronics, 'NRN');
-		
-		//temperatureChecker.Get(UpdateTemperature, 0);
-		
-		//stockPriceChecker.Get('NRN', UpdateStockPrice, 2);
-		
-		//stockPriceChecker.Get('MSFT', UpdateStockPrice, 2);
 	};	
+	
+	function RunHeadless() {
+		// this is just for testing/debugging while the hardware is not connected.
+		stockPriceChecker.Get('NRN');
+		//temperatureChecker.Get();
+	}
 })();
